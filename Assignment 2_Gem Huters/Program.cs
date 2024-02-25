@@ -99,27 +99,51 @@ class Position
 
 
 
-public void PlaceGemsAndObstacles()
+
+
+
+public void CheckGemCollection(Player player)
 {
-
-
-
+    if (board[player.Position.X, player.Position.Y] == 'G')
+    {
+        player.GemCount++;
+        board[player.Position.X, player.Position.Y] = '-'; // Remove the gem from the board
+        Console.WriteLine($"{player.Name} collected a gem!");
+    }
 }
 
-
-
-
-//Creating the display method
-public void Display()
+public void DisplayResults()
 {
+    Player winner = GetWinner();
+    Console.WriteLine("Gem Hunters - Game Over");
+    Console.WriteLine($"Player 1's Gems: {players[0].GemCount}");
+    Console.WriteLine($"Player 2's Gems: {players[1].GemCount}");
 
+    if (players[0].GemCount == players[1].GemCount)
+    {
+        Console.WriteLine("It's a tie!");
+    }
+    else
+    {
+        Console.WriteLine($"{winner.Name} wins!");
+    }
 }
 
-
-//Creating the method for collectinggem
-public void CollectGem()
+public Player GetWinner()
 {
-
+    if (players[0].GemCount > players[1].GemCount)
+    {
+        return players[0];
+    }
+    else if (players[1].GemCount > players[0].GemCount)
+    {
+        return players[1];
+    }
+    else
+    {
+        int winsP1 = Math.Sign(players[0].GemCount - players[1].GemCount);
+        int winsP2 = -winsP1;
+        return winsP1 > winsP2 ? players[0] : players[1];
+    }
 }
-
 
